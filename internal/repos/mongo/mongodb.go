@@ -3,6 +3,9 @@ package mongo
 import (
 	"context"
 	"fmt"
+	"github.com/golang-migrate/migrate/v4"
+	_ "github.com/golang-migrate/migrate/v4/database/mongodb"
+	_ "github.com/golang-migrate/migrate/v4/source/file"
 	"github.com/sirupsen/logrus"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
@@ -33,6 +36,17 @@ func ConnectDB() (*mongo.Client, error) {
 	}
 
 	fmt.Println("Connected to MongoDB")
+
+	m, err := migrate.New(
+		"file://./migrations",
+		"mongodb://admin:password@localhost:27017/sstudb?authSource=admin&readPreference=primary&ssl=false")
+
+	err = m.Up()
+
+	if err != nil && err != migrate.ErrNoChange {
+		logrus.Panicln(err.Error())
+	}
+
 	return client, nil
 }
 
