@@ -9,6 +9,7 @@ import (
 
 func (h *Handler) createCourse(c *gin.Context) {
 	var input models.CourseRequest
+
 	if err := c.ShouldBindBodyWith(&input, binding.JSON); err != nil {
 		newErrorResponse(c, http.StatusBadRequest, err.Error())
 		return

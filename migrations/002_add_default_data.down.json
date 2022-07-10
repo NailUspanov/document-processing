@@ -1,0 +1,6 @@
+[
+  {
+    "delete": "courses",
+    "deletes": [{"q": {}, "limit": 0}]
+  }
+]
