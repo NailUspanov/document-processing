@@ -25,3 +25,5 @@ services:
     deploy:
       mode: replicated
       replicas: 1
+    volumes:
+      - ~/appdocuments:/app/data/documents

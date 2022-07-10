@@ -11,7 +11,7 @@ import (
 
 func ConnectDB() (*mongo.Client, error) {
 	//TODO
-	opts := options.Client().ApplyURI("mongodb://localhost:27017")
+	opts := options.Client().ApplyURI("mongodb://sstu_mongo_1:27017")
 	opts.SetAuth(options.Credential{
 		Username: "admin",
 		Password: "password",
