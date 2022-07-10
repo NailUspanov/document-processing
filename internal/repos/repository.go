@@ -10,12 +10,21 @@ type Document interface {
 	Create(document models.DocumentRequest) (interface{}, error)
 }
 
-type Repository struct {
-	Document
+type Course interface {
+	Create(course models.CourseRequest) (interface{}, error)
+	FindAll() (interface{}, error)
+	FindByName(string) (models.CourseRequest, error)
+	ExistsByName(string) (bool, error)
 }
 
-func NewRepository(collection *mongo.Collection) *Repository {
+type Repository struct {
+	Document
+	Course
+}
+
+func NewRepository(client *mongo.Client) *Repository {
 	return &Repository{
-		Document: mongo2.NewDocument(collection),
+		Document: mongo2.NewDocument(client),
+		Course:   mongo2.NewCourse(client),
 	}
 }
