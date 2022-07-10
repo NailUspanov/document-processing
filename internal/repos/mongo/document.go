@@ -12,7 +12,8 @@ type Document struct {
 	collection *mongo.Collection
 }
 
-func NewDocument(collection *mongo.Collection) *Document {
+func NewDocument(client *mongo.Client) *Document {
+	collection := GetCollection(client, "documents")
 	return &Document{collection: collection}
 }
 

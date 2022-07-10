@@ -8,18 +8,20 @@ type Document struct {
 	Filepath string             `json:"filepath" bson:"filepath"`
 }
 type DocumentRequest struct {
-	Name      string `json:"name" bson:"name"`
-	Job       string `json:"job" bson:"job"`
-	Education string `json:"education" bson:"education"`
-	Passport  string `json:"passport" bson:"passport"`
-	Address   string `json:"address" bson:"address"`
-	Snils     string `json:"snils" bson:"snils"`
-	Email     string `json:"email" bson:"email"`
-	Filepath  string `json:"filepath,omitempty" bson:"filepath"`
-	Street    string `json:"street" bson:"street"`
-	House     string `json:"house" bson:"house"`
-	Flat      string `json:"flat" bson:"flat"`
-	City      string `json:"city" bson:"city"`
-	Index     string `json:"index" bson:"index"`
-	Phone     string `json:"phone" bson:"phone"`
+	Id        primitive.ObjectID `json:"id"`
+	Name      string             `json:"name" bson:"name" binding:"required"`
+	Job       string             `json:"job" bson:"job" binding:"required"`
+	Education string             `json:"education" bson:"education" binding:"required"`
+	Passport  string             `json:"passport" bson:"passport" binding:"required"`
+	Address   string             `json:"address" bson:"address" binding:"required"`
+	Snils     string             `json:"snils" bson:"snils" binding:"required"`
+	Email     string             `json:"email" bson:"email" binding:"required"`
+	Filepath  string             `json:"filepath,omitempty" bson:"filepath"`
+	Street    string             `json:"street" bson:"street" binding:"required"`
+	House     string             `json:"house" bson:"house" binding:"required"`
+	Flat      string             `json:"flat" bson:"flat"`
+	City      string             `json:"city" bson:"city" binding:"required"`
+	Index     string             `json:"index" bson:"index" binding:"required"`
+	Phone     string             `json:"phone" bson:"phone" binding:"required"`
+	Course    string             `json:"course" bson:"course"`
 }
