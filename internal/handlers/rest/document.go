@@ -20,8 +20,8 @@ func (h *Handler) create(c *gin.Context) {
 	}
 
 	switch doctype.Doctype {
-	case "java_retraining_declaration":
-		h.javaTrainingDeclaration(c)
+	case "aptech_course": //TODO: make more meaningful name
+		h.aptechCourse(c)
 	case "registration_form_dksh":
 		//TODO
 	case "":
@@ -31,14 +31,21 @@ func (h *Handler) create(c *gin.Context) {
 
 }
 
-func (h *Handler) javaTrainingDeclaration(c *gin.Context) {
+func (h *Handler) aptechCourse(c *gin.Context) {
 	var input models.DocumentRequest
 	if err := c.ShouldBindBodyWith(&input, binding.JSON); err != nil {
 		newErrorResponse(c, http.StatusBadRequest, err.Error())
 		return
 	}
 
-	result, err := h.services.DocumentService.Create(input)
+	course, err := h.services.CourseService.GetByName(input.Course)
+
+	if err != nil {
+		newErrorResponse(c, http.StatusBadRequest, err.Error())
+		return
+	}
+
+	result, err := h.services.DocumentService.Create(input, course)
 	if err != nil {
 		newErrorResponse(c, http.StatusBadRequest, err.Error())
 		return
@@ -49,4 +56,6 @@ func (h *Handler) javaTrainingDeclaration(c *gin.Context) {
 		Message: "document created",
 		Data:    map[string]interface{}{"data": result},
 	})
+
+	//TODO: need to return doc (?)
 }

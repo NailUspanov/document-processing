@@ -15,8 +15,8 @@ func main() {
 		logrus.Fatal(err)
 		return
 	}
-	collection := mongo2.GetCollection(client, "documents")
-	repo := repos.NewRepository(collection)
+
+	repo := repos.NewRepository(client)
 	service := services.NewService(repo)
 	handlers := rest.NewHandler(service)
 

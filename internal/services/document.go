@@ -18,7 +18,7 @@ func NewDocument(repo repos.Document) *Document {
 	return &Document{repo: repo}
 }
 
-func (d *Document) Create(document models.DocumentRequest) (interface{}, error) {
+func (d *Document) Create(document models.DocumentRequest, course models.CourseRequest) (interface{}, error) {
 
 	// Read from docx file
 	r, err := docx.ReadDocxFile("./data/templates/Zayavlenie_svezhak.docx")
@@ -42,7 +42,11 @@ func (d *Document) Create(document models.DocumentRequest) (interface{}, error) 
 	docx1.Replace("city", document.City, -1)
 	docx1.Replace("index", document.Index, -1)
 	docx1.Replace("phone", document.Phone, -1)
+	docx1.Replace("courseName", document.Course, -1)
+	docx1.Replace("courseType", course.CourseType, -1)
+
 	str := "document" + strconv.Itoa(time.Now().Nanosecond())
+
 	err = docx1.WriteToFile("./data/documents/" + str + ".docx")
 	if err != nil {
 		logrus.Fatalln("failed to create new docx")
