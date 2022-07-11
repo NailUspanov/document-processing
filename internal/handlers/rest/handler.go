@@ -19,6 +19,7 @@ func (h *Handler) InitRoutes() *gin.Engine {
 	documents := router.Group("/documents")
 	{
 		documents.POST("/", h.create)
+		documents.GET("/download/:filename", h.download)
 	}
 
 	courses := router.Group("/courses")
