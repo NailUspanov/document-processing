@@ -82,3 +82,31 @@ func (h *Handler) aptechCourse(c *gin.Context) {
 
 	//TODO: need to return doc (?)
 }
+
+func (h *Handler) getAllDocuments(c *gin.Context) {
+	result, err := h.services.DocumentService.GetAll()
+	if err != nil {
+		newErrorResponse(c, http.StatusBadRequest, err.Error())
+		return
+	}
+
+	c.JSON(http.StatusOK, Response{
+		Error:   false,
+		Message: "documents found",
+		Data:    map[string]interface{}{"data": result},
+	})
+}
+
+func (h *Handler) getAllClients(c *gin.Context) {
+	result, err := h.services.DocumentService.GetAllClients()
+	if err != nil {
+		newErrorResponse(c, http.StatusBadRequest, err.Error())
+		return
+	}
+
+	c.JSON(http.StatusOK, Response{
+		Error:   false,
+		Message: "clients found",
+		Data:    map[string]interface{}{"data": result},
+	})
+}

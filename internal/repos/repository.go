@@ -8,6 +8,8 @@ import (
 
 type Document interface {
 	Create(document models.DocumentRequest) (interface{}, error)
+	FindAll() (interface{}, error)
+	FindAllClients() (interface{}, error)
 }
 
 type Course interface {

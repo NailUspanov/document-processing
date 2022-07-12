@@ -56,3 +56,11 @@ func (d *Document) Create(document models.DocumentRequest, course models.CourseR
 	document.Filepath = str
 	return d.repo.Create(document)
 }
+
+func (d *Document) GetAll() (interface{}, error) {
+	return d.repo.FindAll()
+}
+
+func (d *Document) GetAllClients() (interface{}, error) {
+	return d.repo.FindAllClients()
+}

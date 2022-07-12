@@ -29,7 +29,7 @@ func (h *Handler) createCourse(c *gin.Context) {
 
 }
 
-func (h *Handler) getAll(c *gin.Context) {
+func (h *Handler) getAllCourses(c *gin.Context) {
 	result, err := h.services.CourseService.GetAll()
 	if err != nil {
 		newErrorResponse(c, http.StatusBadRequest, err.Error())
@@ -44,7 +44,7 @@ func (h *Handler) getAll(c *gin.Context) {
 
 }
 
-func (h *Handler) getByName(c *gin.Context) {
+func (h *Handler) getCourseByName(c *gin.Context) {
 	name := c.Query("name")
 	result, err := h.services.CourseService.GetByName(name)
 	if err != nil {

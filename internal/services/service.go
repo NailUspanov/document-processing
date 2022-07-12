@@ -7,6 +7,8 @@ import (
 
 type DocumentService interface {
 	Create(request models.DocumentRequest, course models.CourseRequest) (interface{}, error)
+	GetAll() (interface{}, error)
+	GetAllClients() (interface{}, error)
 }
 
 type CourseService interface {
