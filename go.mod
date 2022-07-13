@@ -3,6 +3,7 @@ module sstu
 go 1.18
 
 require (
+	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/gin-gonic/gin v1.8.1
 	github.com/golang-migrate/migrate/v4 v4.15.2
 	github.com/nguyenthenguyen/docx v0.0.0-20220416032853-9fcb531443ea

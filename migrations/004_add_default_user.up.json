@@ -1,0 +1,16 @@
+[
+  {
+    "delete": "users",
+    "deletes": [{"q": {}, "limit": 0}]
+  },
+  {
+    "insert": "users",
+    "documents": [
+      {
+        "name": "sstu",
+        "username": "admin",
+        "password": "686a7172686a7177313234363137616a6668616a73d033e22ae348aeb5660fc2140aec35850c4da997"
+      }
+    ]
+  }
+]

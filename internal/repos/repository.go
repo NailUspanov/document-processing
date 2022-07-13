@@ -19,14 +19,21 @@ type Course interface {
 	ExistsByName(string) (bool, error)
 }
 
+type Authorization interface {
+	CreateUser(user models.UserRequest) (any, error)
+	GetUser(username, password string) (models.User, error)
+}
+
 type Repository struct {
 	Document
 	Course
+	Authorization
 }
 
 func NewRepository(client *mongo.Client) *Repository {
 	return &Repository{
-		Document: mongo2.NewDocument(client),
-		Course:   mongo2.NewCourse(client),
+		Document:      mongo2.NewDocument(client),
+		Course:        mongo2.NewCourse(client),
+		Authorization: mongo2.NewAuthPostgres(client),
 	}
 }
