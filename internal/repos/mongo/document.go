@@ -18,7 +18,7 @@ func NewDocument(client *mongo.Client) *Document {
 	return &Document{collection: collection}
 }
 
-func (d *Document) Create(document models.DocumentRequest) (interface{}, error) {
+func (d *Document) Create(document any) (interface{}, error) {
 	tx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 	result, err := d.collection.InsertOne(tx, document)
@@ -27,6 +27,64 @@ func (d *Document) Create(document models.DocumentRequest) (interface{}, error) 
 		return 0, err
 	}
 	return result, nil
+}
+
+func (d *Document) FindAllChildContracts() (interface{}, error) {
+	tx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+
+	var documents []models.Contract
+
+	cur, err := d.collection.Find(tx, bson.D{{"doctype", "child_contract"}})
+
+	defer cur.Close(tx)
+
+	if err != nil {
+		return documents, err
+	}
+
+	if err = cur.All(tx, &documents); err != nil {
+		return documents, err
+	}
+
+	if err := cur.Err(); err != nil {
+		return documents, err
+	}
+
+	if len(documents) == 0 {
+		return documents, mongo.ErrNoDocuments
+	}
+
+	return documents, nil
+}
+
+func (d *Document) FindAllAdultContracts() (interface{}, error) {
+	tx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+
+	var documents []models.Contract
+
+	cur, err := d.collection.Find(tx, bson.D{{"doctype", "adult_contract"}})
+
+	defer cur.Close(tx)
+
+	if err != nil {
+		return documents, err
+	}
+
+	if err = cur.All(tx, &documents); err != nil {
+		return documents, err
+	}
+
+	if err := cur.Err(); err != nil {
+		return documents, err
+	}
+
+	if len(documents) == 0 {
+		return documents, mongo.ErrNoDocuments
+	}
+
+	return documents, nil
 }
 
 func (d *Document) FindAll() (interface{}, error) {

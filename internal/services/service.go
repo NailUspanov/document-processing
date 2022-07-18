@@ -8,8 +8,12 @@ import (
 
 type DocumentService interface {
 	Create(request models.DocumentRequest, course models.CourseRequest) (interface{}, error)
+	CreateContract(request models.Contract, course models.CourseRequest) (interface{}, error)
 	GetAll() (interface{}, error)
+	GetAllChildContracts() (interface{}, error)
+	GetAllAdultContracts() (interface{}, error)
 	GetAllClients() (interface{}, error)
+	CreateChildContract(document models.Contract, course models.CourseRequest) (interface{}, error)
 }
 
 type CourseService interface {

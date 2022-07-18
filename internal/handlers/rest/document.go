@@ -23,8 +23,10 @@ func (h *Handler) create(c *gin.Context) {
 	switch doctype.Doctype {
 	case "aptech_course": //TODO: make more meaningful name
 		h.aptechCourse(c)
-	case "registration_form_dksh":
-		//TODO
+	case "adult_contract":
+		h.adultContract(c)
+	case "child_contract":
+		h.childContract(c)
 	case "":
 	default:
 		logrus.Panicln("no such type in case")
@@ -54,6 +56,60 @@ func (h *Handler) download(c *gin.Context) {
 	c.Data(http.StatusOK, "application/octet-stream", byteFile)
 }
 
+func (h *Handler) adultContract(c *gin.Context) {
+	var input models.Contract
+	if err := c.ShouldBindBodyWith(&input, binding.JSON); err != nil {
+		newErrorResponse(c, http.StatusBadRequest, err.Error())
+		return
+	}
+
+	course, err := h.services.CourseService.GetByName(input.Course)
+
+	if err != nil {
+		newErrorResponse(c, http.StatusBadRequest, err.Error())
+		return
+	}
+
+	result, err := h.services.DocumentService.CreateContract(input, course)
+	if err != nil {
+		newErrorResponse(c, http.StatusBadRequest, err.Error())
+		return
+	}
+
+	c.JSON(http.StatusOK, Response{
+		Error:   false,
+		Message: "document created",
+		Data:    map[string]interface{}{"data": result},
+	})
+}
+
+func (h *Handler) childContract(c *gin.Context) {
+	var input models.Contract
+	if err := c.ShouldBindBodyWith(&input, binding.JSON); err != nil {
+		newErrorResponse(c, http.StatusBadRequest, err.Error())
+		return
+	}
+
+	course, err := h.services.CourseService.GetByName(input.Course)
+
+	if err != nil {
+		newErrorResponse(c, http.StatusBadRequest, err.Error())
+		return
+	}
+
+	result, err := h.services.DocumentService.CreateChildContract(input, course)
+	if err != nil {
+		newErrorResponse(c, http.StatusBadRequest, err.Error())
+		return
+	}
+
+	c.JSON(http.StatusOK, Response{
+		Error:   false,
+		Message: "document created",
+		Data:    map[string]interface{}{"data": result},
+	})
+}
+
 func (h *Handler) aptechCourse(c *gin.Context) {
 	var input models.DocumentRequest
 	if err := c.ShouldBindBodyWith(&input, binding.JSON); err != nil {
@@ -79,12 +135,24 @@ func (h *Handler) aptechCourse(c *gin.Context) {
 		Message: "document created",
 		Data:    map[string]interface{}{"data": result},
 	})
-
-	//TODO: need to return doc (?)
 }
 
-func (h *Handler) getAllDocuments(c *gin.Context) {
-	result, err := h.services.DocumentService.GetAll()
+func (h *Handler) getAllChildContracts(c *gin.Context) {
+	result, err := h.services.DocumentService.GetAllChildContracts()
+	if err != nil {
+		newErrorResponse(c, http.StatusBadRequest, err.Error())
+		return
+	}
+
+	c.JSON(http.StatusOK, Response{
+		Error:   false,
+		Message: "documents found",
+		Data:    map[string]interface{}{"data": result},
+	})
+}
+
+func (h *Handler) getAllAdultContracts(c *gin.Context) {
+	result, err := h.services.DocumentService.GetAllAdultContracts()
 	if err != nil {
 		newErrorResponse(c, http.StatusBadRequest, err.Error())
 		return

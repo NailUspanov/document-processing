@@ -7,8 +7,10 @@ import (
 )
 
 type Document interface {
-	Create(document models.DocumentRequest) (interface{}, error)
+	Create(document any) (interface{}, error)
 	FindAll() (interface{}, error)
+	FindAllChildContracts() (interface{}, error)
+	FindAllAdultContracts() (interface{}, error)
 	FindAllClients() (interface{}, error)
 }
 
