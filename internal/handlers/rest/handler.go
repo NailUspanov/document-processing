@@ -20,7 +20,7 @@ func (h *Handler) InitRoutes() *gin.Engine {
 	router.Use(cors.New(cors.Config{
 		AllowOrigins: []string{"*"},
 		AllowMethods: []string{"POST", "PUT", "PATCH", "DELETE"},
-		AllowHeaders: []string{"Content-Type,access-control-allow-origin, access-control-allow-headers"},
+		AllowHeaders: []string{"Content-Type,access-control-allow-origin,access-control-allow-headers,Authorization"},
 	}))
 
 	auth := router.Group("/auth")
