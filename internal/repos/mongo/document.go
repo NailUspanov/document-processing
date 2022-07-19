@@ -153,3 +153,32 @@ func (d *Document) FindAllClients() (interface{}, error) {
 
 	return clients, nil
 }
+
+func (d *Document) FindAllContractsByClient(name string, passportSerial string, passportNumber string) (interface{}, error) {
+	tx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+
+	var documents []models.Contract
+
+	cur, err := d.collection.Find(tx, bson.D{{"doctype", "adult_contract"}, {"name", name}, {"passport_serial", passportSerial}, {"passport_number", passportNumber}})
+
+	defer cur.Close(tx)
+
+	if err != nil {
+		return documents, err
+	}
+
+	if err = cur.All(tx, &documents); err != nil {
+		return documents, err
+	}
+
+	if err := cur.Err(); err != nil {
+		return documents, err
+	}
+
+	if len(documents) == 0 {
+		return documents, mongo.ErrNoDocuments
+	}
+
+	return documents, nil
+}

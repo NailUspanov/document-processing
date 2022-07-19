@@ -155,3 +155,7 @@ func (d *Document) GetAllChildContracts() (interface{}, error) {
 func (d *Document) GetAllClients() (interface{}, error) {
 	return d.repo.FindAllClients()
 }
+
+func (d *Document) GetAllContractsByClient(name string, passportSerial string, passportNumber string) (interface{}, error) {
+	return d.repo.FindAllContractsByClient(name, passportSerial, passportNumber)
+}
