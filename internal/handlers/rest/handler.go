@@ -35,6 +35,7 @@ func (h *Handler) InitRoutes() *gin.Engine {
 		documents.GET("/download/:filename", h.download)
 		documents.GET("/child", h.getAllChildContracts)
 		documents.GET("/adult", h.getAllAdultContracts)
+		documents.GET("/get-client-contracts", h.getAllContractsByClient)
 	}
 
 	clients := router.Group("/clients", h.userIdentity)

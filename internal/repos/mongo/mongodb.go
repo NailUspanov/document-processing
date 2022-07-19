@@ -14,7 +14,7 @@ import (
 
 func ConnectDB() (*mongo.Client, error) {
 	//TODO
-	opts := options.Client().ApplyURI("mongodb://sstu_mongo_1:27017")
+	opts := options.Client().ApplyURI("mongodb://localhost:27017")
 	opts.SetAuth(options.Credential{
 		Username: "admin",
 		Password: "password",
@@ -39,7 +39,7 @@ func ConnectDB() (*mongo.Client, error) {
 
 	m, err := migrate.New(
 		"file://./migrations",
-		"mongodb://admin:password@sstu_mongo_1:27017/sstudb?authSource=admin&readPreference=primary&ssl=false")
+		"mongodb://admin:password@localhost:27017/sstudb?authSource=admin&readPreference=primary&ssl=false")
 
 	err = m.Up()
 

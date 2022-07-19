@@ -14,6 +14,7 @@ type DocumentService interface {
 	GetAllAdultContracts() (interface{}, error)
 	GetAllClients() (interface{}, error)
 	CreateChildContract(document models.Contract, course models.CourseRequest) (interface{}, error)
+	GetAllContractsByClient(string, string, string) (interface{}, error)
 }
 
 type CourseService interface {

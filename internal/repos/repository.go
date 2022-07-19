@@ -12,6 +12,7 @@ type Document interface {
 	FindAllChildContracts() (interface{}, error)
 	FindAllAdultContracts() (interface{}, error)
 	FindAllClients() (interface{}, error)
+	FindAllContractsByClient(string, string, string) (interface{}, error)
 }
 
 type Course interface {

@@ -13,6 +13,12 @@ type Type struct {
 	Doctype string `json:"doctype"`
 }
 
+type ClientInfoDto struct {
+	Name           string `json:"name"`
+	PassportSerial string `json:"passportSerial"`
+	PassportNumber string `json:"passportNumber"`
+}
+
 func (h *Handler) create(c *gin.Context) {
 	var doctype Type
 	if err := c.ShouldBindBodyWith(&doctype, binding.JSON); err != nil {
@@ -175,6 +181,27 @@ func (h *Handler) getAllClients(c *gin.Context) {
 	c.JSON(http.StatusOK, Response{
 		Error:   false,
 		Message: "clients found",
+		Data:    map[string]interface{}{"data": result},
+	})
+}
+
+func (h *Handler) getAllContractsByClient(c *gin.Context) {
+
+	var clientInfo ClientInfoDto
+	if err := c.ShouldBindBodyWith(&clientInfo, binding.JSON); err != nil {
+		newErrorResponse(c, http.StatusBadRequest, err.Error())
+		return
+	}
+
+	result, err := h.services.DocumentService.GetAllContractsByClient(clientInfo.Name, clientInfo.PassportSerial, clientInfo.PassportNumber)
+	if err != nil {
+		newErrorResponse(c, http.StatusBadRequest, err.Error())
+		return
+	}
+
+	c.JSON(http.StatusOK, Response{
+		Error:   false,
+		Message: "contracts found",
 		Data:    map[string]interface{}{"data": result},
 	})
 }
